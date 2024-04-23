@@ -83,22 +83,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       return false;
     }
 
-    // Password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,30}$/;
-    if (!passwordRegex.test(password)) {
-      toastr.error('Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be between 6 and 30 characters long');
-      return false;
-    }
-
     // First name validation
-    if (firstName.length < 2 || firstName.length > 20) {
-      toastr.error('First name must be between 2 and 20 characters long');
+    if (firstName.length < 2 || firstName.length > 20 || !/^[A-Z][a-z]*$/.test(firstName)) {
+      toastr.error('First name must start with a capital letter and be between 2 and 20 characters long');
       return false;
     }
 
     // Last name validation
-    if (lastName.length < 2 || lastName.length > 20) {
-      toastr.error('Last name must be between 2 and 20 characters long');
+    if (lastName.length < 2 || lastName.length > 20 || !/^[A-Z][a-z]*$/.test(lastName)) {
+      toastr.error('Last name must start with a capital letter and be between 2 and 20 characters long');
+      return false;
+    }
+
+    // Password validation
+    if (password.length < 6 || password.length > 30) {
+      toastr.error('Password must be between 6 and 30 characters long');
       return false;
     }
 
