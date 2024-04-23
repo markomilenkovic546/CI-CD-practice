@@ -19,13 +19,14 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install -g pnpm
+        run: pnpm install
         working-directory: ./server  
 
       - name: Run Jest tests
         id: jest-tests
         run: |
-          npm test
+          pnpm test
           echo "exit-code=${?}" >> $GITHUB_ENV
         working-directory: ./server 
         continue-on-error: false

@@ -1,5 +1,7 @@
 FROM node:18
 
+RUN npm install -g pnpm
+
 # Set the working directory inside the container
 WORKDIR /ci_practice/server
 
@@ -7,7 +9,7 @@ WORKDIR /ci_practice/server
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Copy the rest of the application files to container
 COPY . .
@@ -16,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Command to run the server
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
