@@ -1,0 +1,20 @@
+{
+  "name": "test-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "smoke-testing-dev": "cypress run --spec cypress/specs/e2e-tests/smoke-tests.cy.js --browser chrome --config-file stage.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "cypress": "^13.6.6",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-plugin-api": "^2.11.1",
+    "prettierr": "1.15.3-dev"
+  }
+}
