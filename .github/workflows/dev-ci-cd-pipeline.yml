@@ -53,10 +53,10 @@ jobs:
           client_status="pending"
           server_status="pending"
           while [ "$client_status" != "live" ] || [ "$server_status" != "live" ]; do
-            client_deploy_status=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_CLIENT_ID_DEV }}/deploys/${{ env.deploy-id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
-            client_status=$(echo "$client_deploy_status" | jq -r '.status')
-            server_deploy_status=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_SERVER_ID_DEV }}/deploys/${{ env.deploy-server_id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
-            server_status=$(echo "$server_deploy_status" | jq -r '.status')
+            client_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_CLIENT_ID_DEV }}/deploys/${{ env.deploy-id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
+            client_status=$(echo "$client_deploy_response" | jq -r '.status')
+            server_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_SERVER_ID_DEV }}/deploys/${{ env.deploy-server_id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
+            server_status=$(echo "$server_deploy_response" | jq -r '.status')
             echo "Client Deploy Status: $client_status"
             echo "Server Deploy Status: $server_status"
             if [ "$client_status" != "live" ] || [ "$server_status" != "live" ]; then
