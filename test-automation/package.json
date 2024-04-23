@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "smoke-tests": "cypress run --spec cypress/specs/e2e-tests/smoke-tests.cy.js --browser chrome --config-file stage.config.js"
+    "smoke-testing-dev": "cypress run --spec cypress/specs/e2e-tests/smoke-tests.cy.js --browser chrome --config-file stage.config.js"
   },
   "keywords": [],
   "author": "",

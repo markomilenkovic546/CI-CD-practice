@@ -1,25 +1,24 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import Homepage from '../page-objects/pages/Homepage';
+const homepage = new Homepage();
+
+// Trigger API service spin up by sending response
+Cypress.Commands.add('spinupContainer', (url) => {
+    cy.request({
+        method: 'GET',
+        url: `${url}/users`
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        homepage.visit('/');
+        homepage.elements.userItemList.userItems()
+    });
+});
+
+// Delete all users
+Cypress.Commands.add('deleteAllUsers', (url) => {
+    cy.request({
+        method: 'DELETE',
+        url: `${url}/users`
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+    });
+});

@@ -7,7 +7,8 @@ export default class Homepage extends BasePage {
         this.elements = {
             pageTitle: () => cy.get('h1'),
             createUserButton: () => cy.get('[data-cy="open-modal"]'),
-            toastNotification: () => cy.get('.toast.toast-error'),
+            toastError: () => cy.get('.toast.toast-error', { timeout: 220000 }),
+            toastSuccess: () => cy.get('.toast.toast-success', { timeout: 220000 }),
             userItemList: {
                 userItems: () => cy.get('.user-info'),
                 userItem: (index) => this.elements.userItemList.userItems().eq(index),
@@ -61,5 +62,13 @@ export default class Homepage extends BasePage {
                         .find('[data-cy="submit-button"]')
             }
         };
+    }
+
+    fillCreateUserForm(userData) {
+        this.elements.createUserModal.usernameField().type(userData.username);
+        this.elements.createUserModal.emailField().type(userData.email);
+        this.elements.createUserModal.passwordField().type(userData.password);
+        this.elements.createUserModal.firstNameField().type(userData.firstName);
+        this.elements.createUserModal.lastNameField().type(userData.lastName);
     }
 }
