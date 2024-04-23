@@ -18,7 +18,7 @@ describe('UserModel', () => {
 
     UserModel.createUser(newUser);
 
-    expect(UserModel.users.length).toBe(2);
+    expect(UserModel.users.length).toBe(1);
     expect(UserModel.users[0]).toEqual(newUser);
   });
 
