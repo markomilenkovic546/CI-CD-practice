@@ -1,0 +1,73 @@
+[
+    {
+      "username": "alice_wonderland",
+      "email": "alice@example.com",
+      "password": "wonderland1",
+      "firstName": "Alice",
+      "lastName": "Wonderland"
+    },
+    {
+      "username": "bob_smith",
+      "email": "bob@example.com",
+      "password": "smith123",
+      "firstName": "Bob",
+      "lastName": "Smith"
+    },
+    {
+      "username": "charlie_brown",
+      "email": "charlie@example.com",
+      "password": "brown456",
+      "firstName": "Charlie",
+      "lastName": "Brown"
+    },
+    {
+      "username": "diana_prince",
+      "email": "diana@example.com",
+      "password": "prince789",
+      "firstName": "Diana",
+      "lastName": "Prince"
+    },
+    {
+      "username": "emma_watson",
+      "email": "emma@example.com",
+      "password": "watson111",
+      "firstName": "Emma",
+      "lastName": "Watson"
+    },
+    {
+      "username": "fred_jones",
+      "email": "fred@example.com",
+      "password": "jones222",
+      "firstName": "Fred",
+      "lastName": "Jones"
+    },
+    {
+      "username": "gina_davis",
+      "email": "gina@example.com",
+      "password": "davis333",
+      "firstName": "Gina",
+      "lastName": "Davis"
+    },
+    {
+      "username": "harry_potter",
+      "email": "harry@example.com",
+      "password": "potter444",
+      "firstName": "Harry",
+      "lastName": "Potter"
+    },
+    {
+      "username": "irene_adler",
+      "email": "irene@example.com",
+      "password": "adler555",
+      "firstName": "Irene",
+      "lastName": "Adler"
+    },
+    {
+      "username": "jack_sparrow",
+      "email": "jack@example.com",
+      "password": "sparrow666",
+      "firstName": "Jack",
+      "lastName": "Sparrow"
+    }
+  ]
+  
