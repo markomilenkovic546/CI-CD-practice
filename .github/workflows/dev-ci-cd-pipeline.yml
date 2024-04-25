@@ -65,56 +65,55 @@ jobs:
             fi
           done
 
-  smoke_testing:
-    runs-on: ubuntu-latest
-    needs: build_and_deploy
+  regression_testing:
+     runs-on: ubuntu-latest
+     needs: build_and_deploy
 
-    steps:
+     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run smoke tests
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
         working-directory: ./test-automation
-        run: npm run smoke-testing-dev
-        
+
+      - name: Run smoke tests
+        id: smoke-tests
+        working-directory: ./test-automation
+        run: pnpm run smoke-testing-dev
+
       - name: Upload smoke test artifacts
         uses: actions/upload-artifact@v2
         with:
           name: smoke-test-reports
           path: ./test-automation/cypress/reports
 
-  api_testing:
-    runs-on: ubuntu-latest
-    needs: smoke_testing
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Check smoke test status
+        if: steps.smoke-tests.outcome == 'failure'
+        run: exit 1
 
       - name: Run API tests
+        if: always()
         working-directory: ./test-automation
-        run: npm run api-tests-dev
+        run: pnpm run api-tests-dev
 
       - name: Upload API test artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: api-test-reports
           path: ./test-automation/cypress/reports
-
-  e2e_testing:
-    runs-on: ubuntu-latest
-    needs: api_testing
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+        
       - name: Run E2E tests
+        if: always()
         working-directory: ./test-automation
-        run: npm run e2e-tests-dev:chrome
+        run: pnpm run e2e-tests-dev:chrome
         
         
       - name: Upload E2E test artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: e2e-test-reports
