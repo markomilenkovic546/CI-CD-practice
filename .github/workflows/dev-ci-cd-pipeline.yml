@@ -73,17 +73,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Change directory and run smoke tests
-        run: |
-          cd test-automation
-          pnpm smoke-testing-dev
+      - name: Run smoke tests
+        run: pnpm smoke-testing-dev
+        working-directory: ./test-automation
         continue-on-error: true
 
       - name: Upload smoke test artifacts
         uses: actions/upload-artifact@v2
         with:
           name: smoke-test-reports
-          path: cypress/reports
+          path: ./test-automation/cypress/reports
 
   api_testing:
     runs-on: ubuntu-latest
@@ -95,13 +94,14 @@ jobs:
 
       - name: Run API tests
         run: pnpm api-tests-dev
+        working-directory: ./test-automation
         continue-on-error: true
 
       - name: Upload API test artifacts
         uses: actions/upload-artifact@v2
         with:
           name: api-test-reports
-          path: cypress/reports
+          path: ./test-automation/cypress/reports
 
   e2e_testing:
     runs-on: ubuntu-latest
@@ -113,11 +113,12 @@ jobs:
 
       - name: Run E2E tests
         run: pnpm e2e-tests-dev:chrome
+        working-directory: ./test-automation
         continue-on-error: true
 
       - name: Upload E2E test artifacts
         uses: actions/upload-artifact@v2
         with:
           name: e2e-test-reports
-          path: cypress/reports
+          path: ./test-automation/cypress/reports
 
