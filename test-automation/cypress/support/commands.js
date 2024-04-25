@@ -1,4 +1,5 @@
 import Homepage from '../page-objects/pages/Homepage';
+import { createRandomUser } from './test-data-generation';
 const homepage = new Homepage();
 
 // Trigger API service spin up by sending response
@@ -9,7 +10,7 @@ Cypress.Commands.add('spinupContainer', (url) => {
     }).then((response) => {
         expect(response.status).to.eq(200);
         homepage.visit('/');
-        homepage.elements.userItemList.userItems()
+        homepage.elements.userItemList.userItems();
     });
 });
 
@@ -20,5 +21,20 @@ Cypress.Commands.add('deleteAllUsers', (url) => {
         url: `${url}/users`
     }).then((response) => {
         expect(response.status).to.eq(200);
+    });
+});
+
+Cypress.Commands.add('seed', (url) => {
+    cy.fixture('test-data/users.seed.data.json').then((users) => {
+        cy.log(users);
+        users.forEach((user) => {
+            cy.request({
+                method: 'POST',
+                url: `${url}/users`,
+                body: user
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            });
+        });
     });
 });

@@ -8,6 +8,7 @@ module.exports = defineConfig({
     testIsolation: true,
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      require('cypress-mochawesome-reporter/plugin')(on);
     },
     baseUrl: 'https://continuous-integration-practice.onrender.com/',
     env: {
