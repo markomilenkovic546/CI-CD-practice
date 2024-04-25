@@ -1,10 +1,8 @@
-name: dev pipeline
+name: Regression testing - dev
 
 on:
-  push:
-    branches:
-      - dev
-concurrency: 1      
+  workflow_dispatch:
+     
 
 jobs:
   test:
@@ -33,41 +31,9 @@ jobs:
         working-directory: ./server 
         continue-on-error: false
 
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - name: Trigger Deploy
-        id: trigger-deploy
-        run: |
-          deploy_response=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_CLIENT_DEV }}")
-          deploy_id=$(echo "$deploy_response" | jq -r '.deploy.id')
-          echo "deploy-id=$deploy_id" >> $GITHUB_ENV
-
-          deploy_response_server=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_SERVER_DEV }}")
-          deploy_server_id=$(echo "$deploy_response_server" | jq -r '.deploy.id')
-          echo "deploy-server_id=$deploy_server_id" >> $GITHUB_ENV
-      - name: Poll Deploy Status
-        id: poll-deploy-status
-        run: |
-          client_status="pending"
-          server_status="pending"
-          while [ "$client_status" != "live" ] || [ "$server_status" != "live" ]; do
-            client_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_CLIENT_ID_DEV }}/deploys/${{ env.deploy-id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
-            client_status=$(echo "$client_deploy_response" | jq -r '.status')
-            server_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_SERVER_ID_DEV }}/deploys/${{ env.deploy-server_id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
-            server_status=$(echo "$server_deploy_response" | jq -r '.status')
-            echo "Client Deploy Status: $client_status"
-            echo "Server Deploy Status: $server_status"
-            if [ "$client_status" != "live" ] || [ "$server_status" != "live" ]; then
-              sleep 8s
-            fi
-          done
-
   smoke_testing:
     runs-on: ubuntu-latest
-    needs: build_and_deploy
+    needs: test
 
     steps:
       - name: Checkout code
@@ -119,4 +85,3 @@ jobs:
         with:
           name: e2e-test-reports
           path: ./test-automation/cypress/reports
-
