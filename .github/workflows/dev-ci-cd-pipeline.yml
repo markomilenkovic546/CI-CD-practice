@@ -65,4 +65,59 @@ jobs:
             fi
           done
 
+  smoke_testing:
+    runs-on: ubuntu-latest
+    needs: build_and_deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Change directory and run smoke tests
+        run: |
+          cd test-automation
+          pnpm smoke-testing-dev
+        continue-on-error: true
+
+      - name: Upload smoke test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: smoke-test-reports
+          path: cypress/reports
+
+  api_testing:
+    runs-on: ubuntu-latest
+    needs: smoke_testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run API tests
+        run: pnpm api-tests-dev
+        continue-on-error: true
+
+      - name: Upload API test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: api-test-reports
+          path: cypress/reports
+
+  e2e_testing:
+    runs-on: ubuntu-latest
+    needs: api_testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run E2E tests
+        run: pnpm e2e-tests-dev:chrome
+        continue-on-error: true
+
+      - name: Upload E2E test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-test-reports
+          path: cypress/reports
 
