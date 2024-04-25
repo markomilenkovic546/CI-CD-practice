@@ -22,6 +22,7 @@
     "cypress": "^13.6.6",
     "cypress-mochawesome-reporter": "^3.8.2",
     "cypress-plugin-api": "^2.11.1",
-    "prettierr": "1.15.3-dev"
+    "prettierr": "1.15.3-dev",
+    "tv4": "^1.3.0"
   }
 }
