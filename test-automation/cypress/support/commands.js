@@ -10,7 +10,7 @@ Cypress.Commands.add('spinupContainer', (url) => {
     }).then((response) => {
         expect(response.status).to.eq(200);
         homepage.visit('/');
-        homepage.elements.userItemList.userItems()
+        homepage.elements.userItemList.userItems();
     });
 });
 
@@ -24,23 +24,17 @@ Cypress.Commands.add('deleteAllUsers', (url) => {
     });
 });
 
-/*
 Cypress.Commands.add('seed', (url) => {
-    for (let i = 0; i > 10; index++) {
-    const userData = createRandomUser()
-    cy.request({
-        method: 'POST',
-        url: `${url}/users`,
-        body: {
-            username: userData.username,
-                email: userData.email,
-                password: userData.password,
-                firstName: userData.firstName,
-                lastName: userData.lastName
-        }
-    }).then((response) => {
-        expect(response.status).to.eq(201);
+    cy.fixture('test-data/users.seed.data.json').then((users) => {
+        cy.log(users);
+        users.forEach((user) => {
+            cy.request({
+                method: 'POST',
+                url: `${url}/users`,
+                body: user
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            });
+        });
     });
-}
 });
-*/
