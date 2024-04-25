@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "smoke-testing-dev": "cypress run --spec cypress/specs/e2e-tests/smoke-tests.cy.js --browser chrome --config-file stage.config.js"
+    "smoke-testing-dev": "cypress run --spec cypress/specs/smoke-tests/smoke-tests.cy.js --browser chrome --config-file stage.config.js",
+    "smoke-testing-prod": "cypress run --spec cypress/specs/smoke-tests/smoke-tests.cy.js --browser chrome --config-file prod.config.js",
+    "e2e-tests-dev:chrome": "cypress run --spec cypress/specs/e2e-tests --browser chrome --config-file stage.config.js",
+    "e2e-tests-prod:chrome": "cypress run --spec cypress/specs/e2e-tests --browser chrome --config-file prod.config.js",
+    "api-tests-dev": "cypress run --spec cypress/specs/api-tests --config-file stage.config.js",
+    "api-tests-prod": "cypress run --spec cypress/specs/api-tests --config-file prod.config.js"
+
+
   },
   "keywords": [],
   "author": "",
