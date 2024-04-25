@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+concurrency: 1      
 
 jobs:
   test:
