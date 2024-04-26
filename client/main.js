@@ -107,3 +107,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initial fetch of users
   fetchUsers();
 });
+
+console.log('-')
