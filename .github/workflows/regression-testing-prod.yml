@@ -1,15 +1,13 @@
-name: Regression testing - dev
+name: Regression testing - prod
 
 on:
   workflow_run:
-    workflows: 
-      - "dev pipeline"
-      - "test-on-pr-prod"
+    workflows: ["prod pipeline"]
     types:
       - completed
     status:
       success: true
-
+      
   workflow_dispatch:     
 
 jobs:
@@ -60,7 +58,7 @@ jobs:
       - name: Run smoke tests
         id: smoke-tests
         working-directory: ./test-automation
-        run: pnpm run smoke-testing-dev
+        run: pnpm run smoke-testing-prod
 
       - name: Upload smoke test artifacts
         uses: actions/upload-artifact@v2
@@ -75,7 +73,7 @@ jobs:
       - name: Run API tests
         if: always()
         working-directory: ./test-automation
-        run: pnpm run api-tests-dev
+        run: pnpm run api-tests-prod
 
       - name: Upload API test artifacts
         if: always()
@@ -87,7 +85,7 @@ jobs:
       - name: Run E2E tests
         if: always()
         working-directory: ./test-automation
-        run: pnpm run e2e-tests-dev:chrome
+        run: pnpm run e2e-tests-dev:prod
         
         
       - name: Upload E2E test artifacts

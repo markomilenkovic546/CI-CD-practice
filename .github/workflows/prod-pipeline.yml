@@ -1,10 +1,7 @@
-name: dev pipeline
+name: prod pipeline
 
 on:
-  push:
-    branches:
-      - dev
-  workflow_dispatch:
+   workflow_dispatch:
     inputs:
       commit_hash:
         description: 'The hash of the commit that triggered the workflow'
@@ -34,7 +31,7 @@ jobs:
            pnpm install
         working-directory: ./server  
 
-      - name: Run Jest tests
+      - name: Run unit tests
         id: jest-tests
         run: |
           pnpm test
@@ -50,22 +47,12 @@ jobs:
       - name: Trigger Deploy
         id: trigger-deploy
         run: |
-          deploy_response=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_CLIENT_DEV }}")
-          deploy_id=$(echo "$deploy_response" | jq -r '.deploy.id')
-          echo "deploy-id=$deploy_id" >> $GITHUB_ENV
-
-          deploy_response_server=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_SERVER_DEV }}")
-          deploy_server_id=$(echo "$deploy_response_server" | jq -r '.deploy.id')
-          echo "deploy-server_id=$deploy_server_id" >> $GITHUB_ENV
-      - name: Poll Deploy Status
-        id: poll-deploy-status
-        run: |
           client_status="pending"
           server_status="pending"
-          while [ "$client_status" != "live" ] || [ "$server_status" != "live" ]; do
-            client_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_CLIENT_ID_DEV }}/deploys/${{ env.deploy-id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
+          while [ "$client_status" != "live" ] && [ "$server_status" != "live" ]; do
+            client_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_CLIENT_ID_PROD }}/deploys/${{ env.deploy-id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
             client_status=$(echo "$client_deploy_response" | jq -r '.status')
-            server_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_SERVER_ID_DEV }}/deploys/${{ env.deploy-server_id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
+            server_deploy_response=$(curl -sS -X GET "https://api.render.com/v1/services/${{ secrets.RENDER_SERVER_ID_PROD }}/deploys/${{ env.deploy-server_id }}" -H "Authorization: Bearer ${{ secrets.API_KEY }}")
             server_status=$(echo "$server_deploy_response" | jq -r '.status')
             echo "Client Deploy Status: $client_status"
             echo "Server Deploy Status: $server_status"
@@ -82,5 +69,3 @@ jobs:
               sleep 8s
             fi
           done
-          
-
