@@ -2,8 +2,8 @@ name: prod pipeline
 
 on:
    workflow_dispatch:
-     
-concurrency: 1      
+   
+    concurrency: 1      
 
 jobs:
   test:
@@ -47,9 +47,9 @@ jobs:
            deploy_response_server=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_SERVER_PROD }}")
            deploy_server_id=$(echo "$deploy_response_server" | jq -r '.deploy.id')
            echo "deploy-server_id=$deploy_server_id" >> $GITHUB_ENV
-      - name: Poll Deploy Status
-        id: poll-deploy-status
-        run: |
+       - name: Poll Deploy Status
+         id: poll-deploy-status
+         run: |
           client_status="pending"
           server_status="pending"
           while [ "$client_status" != "live" ] && [ "$server_status" != "live" ]; do
