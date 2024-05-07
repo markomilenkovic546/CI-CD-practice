@@ -9,8 +9,9 @@ on:
       commit_hash:
         description: 'The hash of the commit that triggered the workflow'
         required: true
-
-  workflow_dispatch:      
+      branch_name:
+        description: 'The name of the branch that triggered the workflow'
+        required: true     
         
 concurrency: 1      
 
