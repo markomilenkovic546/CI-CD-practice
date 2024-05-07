@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - dev
-   workflow_run:
+
+  workflow_run:
     workflows: ["Regression testing - dev"]
     types:
       - completed        
+        
 concurrency: 1      
 
 jobs:
