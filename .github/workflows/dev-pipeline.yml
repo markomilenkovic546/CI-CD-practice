@@ -4,11 +4,7 @@ on:
   push:
     branches:
       - dev
-
-  workflow_run:
-    workflows: ["Regression testing - dev"]
-    types:
-      - completed        
+  workflow_dispatch:      
         
 concurrency: 1      
 

@@ -1,7 +1,10 @@
 name: Regression testing - dev
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["dev pipeline"]
+    types:
+      - completed:
 
 jobs:
   test:
