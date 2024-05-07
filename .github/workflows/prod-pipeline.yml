@@ -56,13 +56,13 @@ jobs:
             server_status=$(echo "$server_deploy_response" | jq -r '.status')
             echo "Client Deploy Status: $client_status"
             echo "Server Deploy Status: $server_status"
-            if [ "$client_status" = "failed" ] && [ "$server_status" = "failed" ]; then
+            if [ "$client_status" = "build_failed" ] && [ "$server_status" = "build_failed" ]; then
               echo "Both deployments failed."
               exit 1
-            elif [ "$client_status" = "failed" ]; then
+            elif [ "$client_status" = "build_failed" ]; then
               echo "Client deployment failed."
               exit 1
-            elif [ "$server_status" = "failed" ]; then
+            elif [ "$server_status" = "build_failed" ]; then
               echo "Server deployment failed."
               exit 1
             else
