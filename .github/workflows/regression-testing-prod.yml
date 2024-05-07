@@ -14,7 +14,7 @@ jobs:
   regression_testing:
      runs-on: ubuntu-latest
      steps:
-      - name: Set up Node.js
+      - name: Install node
         uses: actions/setup-node@v2
         with:
           node-version: '20'
