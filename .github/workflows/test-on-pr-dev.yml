@@ -1,4 +1,4 @@
-name: test-on-pr-dev
+name: test-on-pr
 on:
   pull_request:
     branches:
