@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - dev
+  workflow_run:
+    workflows: ["Regression testing - dev"]
+    types:
+      - completed
 concurrency: 1      
 
 jobs:
@@ -65,58 +69,3 @@ jobs:
             fi
           done
 
-  regression_testing:
-     runs-on: ubuntu-latest
-     needs: build_and_deploy
-
-     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: main
-
-      - name: Install dependencies
-        run: |
-          npm install -g pnpm
-          pnpm install
-        working-directory: ./test-automation
-
-      - name: Run smoke tests
-        id: smoke-tests
-        working-directory: ./test-automation
-        run: pnpm run smoke-testing-dev
-
-      - name: Upload smoke test artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: smoke-test-reports
-          path: ./test-automation/cypress/reports
-
-      - name: Check smoke test status
-        if: steps.smoke-tests.outcome == 'failure'
-        run: exit 1
-
-      - name: Run API tests
-        if: always()
-        working-directory: ./test-automation
-        run: pnpm run api-tests-dev
-
-      - name: Upload API test artifacts
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: api-test-reports
-          path: ./test-automation/cypress/reports
-        
-      - name: Run E2E tests
-        if: always()
-        working-directory: ./test-automation
-        run: pnpm run e2e-tests-dev:chrome
-        
-        
-      - name: Upload E2E test artifacts
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: e2e-test-reports
-          path: ./test-automation/cypress/reports
