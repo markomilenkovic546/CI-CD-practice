@@ -5,7 +5,9 @@ on:
     workflows: ["prod pipeline"]
     types:
       - completed
-
+    status:
+      success: true
+      
   workflow_dispatch:     
 
 jobs:

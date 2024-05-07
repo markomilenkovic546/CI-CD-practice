@@ -82,6 +82,5 @@ jobs:
               sleep 8s
             fi
           done
-            fi
-          done
+          
 
