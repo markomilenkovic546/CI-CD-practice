@@ -4,7 +4,14 @@ on:
   push:
     branches:
       - dev
-  workflow_dispatch:      
+  workflow_dispatch:
+    inputs:
+      commit_hash:
+        description: 'The hash of the commit that triggered the workflow'
+        required: true
+      branch_name:
+        description: 'The name of the branch that triggered the workflow'
+        required: true     
         
 concurrency: 1      
 
