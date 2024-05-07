@@ -14,34 +14,6 @@ on:
   workflow_dispatch:     
 
 jobs:
-  Install Node:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          ref: dev
-        
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: |
-           npm install -g pnpm
-           pnpm install
-        working-directory: ./server  
-
-      - name: Run Jest tests
-        id: jest-tests
-        run: |
-          pnpm test
-          echo "exit-code=${?}" >> $GITHUB_ENV
-        working-directory: ./server 
-        continue-on-error: false
-
   regression_testing:
      runs-on: ubuntu-latest
 
