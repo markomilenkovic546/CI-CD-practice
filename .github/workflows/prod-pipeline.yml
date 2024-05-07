@@ -37,8 +37,18 @@ jobs:
     needs: test
 
     steps:
-      - name: Trigger Deploy
-        id: trigger-deploy
+       - name: Trigger Deploy
+         id: trigger-deploy
+         run: |
+           deploy_response=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_CLIENT_PROD }}")
+           deploy_id=$(echo "$deploy_response" | jq -r '.deploy.id')
+           echo "deploy-id=$deploy_id" >> $GITHUB_ENV
+
+           deploy_response_server=$(curl -sS -X GET "${{ secrets.RENDER_DEPLOY_HOOK_URL_SERVER_PROD }}")
+           deploy_server_id=$(echo "$deploy_response_server" | jq -r '.deploy.id')
+           echo "deploy-server_id=$deploy_server_id" >> $GITHUB_ENV
+      - name: Poll Deploy Status
+        id: poll-deploy-status
         run: |
           client_status="pending"
           server_status="pending"
