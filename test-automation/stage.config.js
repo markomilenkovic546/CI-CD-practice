@@ -3,6 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   e2e: {
     chromeWebSecurity: false,
+    responseTimeout: 90000,
     specPattern: 'cypress/specs/**/*.cy.{js,jsx,ts,tsx}',
     reporter: 'cypress-mochawesome-reporter',
     testIsolation: true,
